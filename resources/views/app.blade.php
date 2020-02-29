@@ -79,9 +79,9 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 mt-5">
+            <div class="col-lg-12">
                 <div id="app">
-                    <example-component></example-component>
+                    <test-component></test-component>
                 </div>
             </div>
         </div>
