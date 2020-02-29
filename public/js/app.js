@@ -1943,6 +1943,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47809,7 +47830,7 @@ var render = function() {
                   attrs: { type: "button" },
                   on: { click: _vm.addFunction }
                 },
-                [_vm._v("Add new function")]
+                [_vm._v("Add new function\n                    ")]
               )
             ]),
             _vm._v(" "),
@@ -47821,7 +47842,7 @@ var render = function() {
                   attrs: { type: "button" },
                   on: { click: _vm.startTest }
                 },
-                [_vm._v("Start test")]
+                [_vm._v("Start test\n                    ")]
               )
             ]),
             _vm._v(" "),
@@ -47866,10 +47887,39 @@ var render = function() {
             },
             [_vm._v("Tests are running...")]
           ),
-          _vm._v(
-            "\n            " +
-              _vm._s(_vm._f("json")(_vm.testResults)) +
-              "\n        "
+          _vm._v(" "),
+          _c(
+            "table",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.testResults.length,
+                  expression: "testResults.length"
+                }
+              ],
+              staticClass: "table mt-3"
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.testResults, function(result, index) {
+                  return _c("tr", [
+                    _c("td", [_vm._v("Function #" + _vm._s(index + 1))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.time))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.memory))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(result.memory_peak))])
+                  ])
+                }),
+                0
+              )
+            ]
           )
         ],
         2
@@ -47877,7 +47927,22 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("th", [_vm._v("Function")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Time")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Memory")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Memory Peak")])
+    ])
+  }
+]
 render._withStripped = true
 
 

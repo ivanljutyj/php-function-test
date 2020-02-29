@@ -21,13 +21,13 @@ class TestController extends Controller
        $result = [];
        $bench = new Ubench();
        foreach ($functions as $function) {
-           $bench->start();
            ob_start();
+           $bench->start();
            for ($i = 0; $i < $iterations; $i++) {
                eval($function['code']);
            }
-           ob_end_clean();
            $bench->end();
+           ob_end_clean();
            $result[] = [
                'time' => $bench->getTime(),
                'memory' => $bench->getMemoryUsage(),

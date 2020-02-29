@@ -12,18 +12,39 @@
                 </div>
                 <form class="form-inline mt-3">
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary mr-2" @click="addFunction">Add new function</button>
+                        <button type="button" class="btn btn-primary mr-2"
+                                @click="addFunction">Add new function
+                        </button>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary mr-2" @click="startTest">Start test</button>
+                        <button type="button" class="btn btn-primary mr-2"
+                                @click="startTest">Start test
+                        </button>
                     </div>
                     <div class="form-group">
                         <label class="mr-2">Iterations</label>
-                        <input class="form-control" type="number" v-model="iterations">
+                        <input class="form-control" type="number"
+                               v-model="iterations">
                     </div>
                 </form>
                 <div v-show="loading">Tests are running...</div>
-                {{ testResults | json }}
+
+                <table class="table mt-3" v-show="testResults.length">
+                    <thead>
+                    <th>Function</th>
+                    <th>Time</th>
+                    <th>Memory</th>
+                    <th>Memory Peak</th>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(result, index) in testResults">
+                        <td>Function #{{ index + 1 }}</td>
+                        <td>{{result.time}}</td>
+                        <td>{{result.memory}}</td>
+                        <td>{{result.memory_peak}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -59,14 +80,14 @@
     methods: {
       addFunction() {
         this.functions.push({
-            code: '(function() { // code here })();'
+          code: '(function() { // code here })();'
         })
       },
       startTest() {
         this.loading = true;
         axios.post('/api/test', {
-            functions:  this.functions,
-            iterations: this.iterations
+          functions: this.functions,
+          iterations: this.iterations
         }).then(response => {
           this.testResults = response.data;
           this.loading = false;
