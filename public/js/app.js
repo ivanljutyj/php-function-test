@@ -1941,6 +1941,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1950,6 +1952,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      loading: false,
       functions: [{
         code: '(function() { // code here })();'
       }],
@@ -1974,11 +1977,13 @@ __webpack_require__.r(__webpack_exports__);
     startTest: function startTest() {
       var _this = this;
 
+      this.loading = true;
       axios.post('/api/test', {
         functions: this.functions,
         iterations: this.iterations
       }).then(function (response) {
-        return _this.testResults = response;
+        _this.testResults = response.data;
+        _this.loading = false;
       });
     }
   }
@@ -47795,12 +47800,12 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _c("div", { staticClass: "form-row" }, [
-            _c("div", { staticClass: "col-auto" }, [
+          _c("form", { staticClass: "form-inline mt-3" }, [
+            _c("div", { staticClass: "form-group" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary mt-3",
+                  staticClass: "btn btn-primary mr-2",
                   attrs: { type: "button" },
                   on: { click: _vm.addFunction }
                 },
@@ -47808,11 +47813,11 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-auto" }, [
+            _c("div", { staticClass: "form-group" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary mt-3",
+                  staticClass: "btn btn-primary mr-2",
                   attrs: { type: "button" },
                   on: { click: _vm.startTest }
                 },
@@ -47820,8 +47825,8 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-auto" }, [
-              _c("label", [_vm._v("Iterations")]),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { staticClass: "mr-2" }, [_vm._v("Iterations")]),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -47845,7 +47850,27 @@ var render = function() {
                 }
               })
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.loading,
+                  expression: "loading"
+                }
+              ]
+            },
+            [_vm._v("Tests are running...")]
+          ),
+          _vm._v(
+            "\n            " +
+              _vm._s(_vm._f("json")(_vm.testResults)) +
+              "\n        "
+          )
         ],
         2
       )

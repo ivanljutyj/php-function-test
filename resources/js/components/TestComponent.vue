@@ -10,18 +10,20 @@
                                     :options="cmOptions"></codemirror>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-primary mt-3" @click="addFunction">Add new function</button>
+                <form class="form-inline mt-3">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary mr-2" @click="addFunction">Add new function</button>
                     </div>
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-primary mt-3" @click="startTest">Start test</button>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary mr-2" @click="startTest">Start test</button>
                     </div>
-                    <div class="col-auto">
-                        <label>Iterations</label>
+                    <div class="form-group">
+                        <label class="mr-2">Iterations</label>
                         <input class="form-control" type="number" v-model="iterations">
                     </div>
-                </div>
+                </form>
+                <div v-show="loading">Tests are running...</div>
+                {{ testResults | json }}
             </div>
         </div>
     </div>
@@ -38,6 +40,7 @@
     },
     data() {
       return {
+        loading: false,
         functions: [{
           code: '(function() { // code here })();'
         }],
@@ -60,10 +63,14 @@
         })
       },
       startTest() {
+        this.loading = true;
         axios.post('/api/test', {
             functions:  this.functions,
             iterations: this.iterations
-        }).then(response => (this.testResults = response));
+        }).then(response => {
+          this.testResults = response.data;
+          this.loading = false;
+        });
       }
     }
   }
