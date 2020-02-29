@@ -1932,6 +1932,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1942,8 +1951,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       functions: [{
-        code: 'function test() { }'
+        code: '(function() { // code here })();'
       }],
+      iterations: 0,
+      options: [],
+      testResults: [],
       cmOptions: {
         tabSize: 4,
         mode: 'text/x-php',
@@ -1956,7 +1968,17 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addFunction: function addFunction() {
       this.functions.push({
-        code: 'function test' + this.functions.length + '() { }'
+        code: '(function() { // code here })();'
+      });
+    },
+    startTest: function startTest() {
+      var _this = this;
+
+      axios.post('/api/test', {
+        functions: this.functions,
+        iterations: this.iterations
+      }).then(function (response) {
+        return _this.testResults = response;
       });
     }
   }
@@ -47773,15 +47795,57 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary mt-3",
-              attrs: { type: "button" },
-              on: { click: _vm.addFunction }
-            },
-            [_vm._v("Add new\n                function\n            ")]
-          )
+          _c("div", { staticClass: "form-row" }, [
+            _c("div", { staticClass: "col-auto" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary mt-3",
+                  attrs: { type: "button" },
+                  on: { click: _vm.addFunction }
+                },
+                [_vm._v("Add new function")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-auto" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary mt-3",
+                  attrs: { type: "button" },
+                  on: { click: _vm.startTest }
+                },
+                [_vm._v("Start test")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-auto" }, [
+              _c("label", [_vm._v("Iterations")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.iterations,
+                    expression: "iterations"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "number" },
+                domProps: { value: _vm.iterations },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.iterations = $event.target.value
+                  }
+                }
+              })
+            ])
+          ])
         ],
         2
       )

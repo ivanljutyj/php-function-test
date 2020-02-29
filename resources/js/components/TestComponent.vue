@@ -10,9 +10,18 @@
                                     :options="cmOptions"></codemirror>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary mt-3" @click="addFunction">Add new
-                    function
-                </button>
+                <div class="form-row">
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary mt-3" @click="addFunction">Add new function</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary mt-3" @click="startTest">Start test</button>
+                    </div>
+                    <div class="col-auto">
+                        <label>Iterations</label>
+                        <input class="form-control" type="number" v-model="iterations">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -30,8 +39,11 @@
     data() {
       return {
         functions: [{
-          code: 'function test() { }'
+          code: '(function() { // code here })();'
         }],
+        iterations: 0,
+        options: [],
+        testResults: [],
         cmOptions: {
           tabSize: 4,
           mode: 'text/x-php',
@@ -44,8 +56,14 @@
     methods: {
       addFunction() {
         this.functions.push({
-            code: 'function test'+this.functions.length+'() { }'
+            code: '(function() { // code here })();'
         })
+      },
+      startTest() {
+        axios.post('/api/test', {
+            functions:  this.functions,
+            iterations: this.iterations
+        }).then(response => (this.testResults = response));
       }
     }
   }
