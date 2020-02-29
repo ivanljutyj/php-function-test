@@ -27,8 +27,11 @@
                                v-model="iterations">
                     </div>
                 </form>
-                <div v-show="loading">Tests are running...</div>
+                <div v-show="loading && !error">Tests are running...</div>
 
+                <div class="error" v-show="error">
+                    {{ error }}
+                </div>
                 <table class="table mt-3" v-show="testResults.length">
                     <thead>
                     <th>Function</th>
@@ -65,7 +68,7 @@
         functions: [{
           code: '(function() { // code here })();'
         }],
-        iterations: 0,
+        iterations: 100,
         options: [],
         testResults: [],
         cmOptions: {
@@ -74,7 +77,8 @@
           theme: 'base16-dark',
           lineNumbers: true,
           line: true,
-        }
+        },
+        error: null
       }
     },
     methods: {
@@ -91,6 +95,8 @@
         }).then(response => {
           this.testResults = response.data;
           this.loading = false;
+        }).catch((error) => {
+          this.error = error.response.data.message;
         });
       }
     }
@@ -98,4 +104,8 @@
 </script>
 
 <style scoped>
+    .error {
+        color: red;
+        font-weight: bold;
+    }
 </style>
