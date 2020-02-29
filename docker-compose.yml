@@ -20,6 +20,8 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
     ports:
       - 8080:80
 
