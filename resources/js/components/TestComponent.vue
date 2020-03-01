@@ -10,7 +10,7 @@
                                     :options="cmOptions"></codemirror>
                     </div>
                 </div>
-                <form class="form-inline mt-3">
+                <form class="form-inline mt-3 mb-3">
                     <div class="form-group">
                         <button type="button" class="btn btn-primary mr-2"
                                 @click="addFunction">Add new function
@@ -95,6 +95,7 @@
         }).then(response => {
           this.testResults = response.data;
           this.loading = false;
+          this.error = null;
         }).catch((error) => {
           this.error = error.response.data.message;
         });
